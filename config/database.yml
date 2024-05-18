@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: db
+  username: user
+  password: password
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: do_you_kanji_development
+
+test:
+  <<: *default
+  database: do_you_kanji_test
+
+production:
+  <<: *default
+  database: do_you_kanji_production
+  username:  <%= ENV['DO_YOU_KANJI_DATABASE_USERNAME'] %>
+  password: <%= ENV["DO_YOU_KANJI_DATABASE_PASSWORD"] %>
