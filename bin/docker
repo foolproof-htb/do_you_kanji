@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+def execute_command(command)
+  puts command
+  exec command
+end
+
+def start
+  execute_command "docker-compose start"
+end
+
+def stop
+  execute_command "docker-compose stop"
+end
+
+def rails(*args)
+  execute_command "docker exec -it do_you_kanji-rails-1 bin/rails #{args.join(' ')}"
+end
+
+def attach(container)
+  execute_command %(docker attach --detach-keys="ctrl-c" do_you_kanji-#{container}-1)
+end
+
+def bash(container)
+  execute_command "docker exec -it do_you_kanji-#{container}-1 bash"
+end
+
+def show_usage
+  puts "Usage: #{$0} {#{COMMANDS.keys.join('|')}} [...]"
+end
+
+COMMANDS = {
+  's' => method(:start),
+  'start' => method(:start),
+  'stop' => method(:stop),
+  'rails' => method(:rails),
+  'attach' => method(:attach),
+  'bash' => method(:bash)
+}.freeze
+
+command = ARGV.shift
+args = ARGV
+
+if COMMANDS.key?(command)
+  COMMANDS[command].call(*args)
+else
+  show_usage
+end
