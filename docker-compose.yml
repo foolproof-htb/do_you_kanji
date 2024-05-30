@@ -20,6 +20,8 @@ services:
       - db
     environment:
       RAILS_ENV: development
+    tty: true
+    stdin_open: true
 
 volumes:
   postgres_volume:
