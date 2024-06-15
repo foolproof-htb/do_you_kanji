@@ -1,11 +1,20 @@
-<%= form_with url: kanjis_search_path, method: :get, local: true do %>
-  <%= label_tag :character, "漢字を検索:" %>
-  <%= text_field_tag :character, params[:character] %>
-  <%= submit_tag "検索" %>
-<% end %>
-
-<% if @kanjis %>
-  <% @kanjis.each do |kanji| %>
-    <h2> <%= link_to kanji, kanjis_path(kanji) %></h2>
+<div class="kanjis-index">
+  <%= form_with url: kanjis_search_path, method: :get, local: true do %>
+    <%= label_tag :character, "漢字を検索:" %>
+    <%= text_field_tag :character, params[:character] %>
+    <%= submit_tag "検索" %>
   <% end %>
-<% end %>
+
+
+  <% if @kanjis %>
+    <div class="container-fluid">
+      <div class="kanji-list d-flex flex-wrap">
+        <% @kanjis.each do |kanji| %>
+          <div class="p-2 text-center">
+            <h2><%= link_to kanji, kanjis_path(kanji) %></h2>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
